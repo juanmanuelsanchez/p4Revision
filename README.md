@@ -1,7 +1,7 @@
 
 ###IMPORTANT: THIS IS A DEVELOPMENT VERSION OF P4. YOU CAN FOLLOW THE OPTIMIZATION PROCESS HERE   DOWN BELOW OR YOU CAN ADDRESS TO THE PROJECT FILES FOR AN INLINED COMMENTS###
 
-     *Website Performance Optimization portfolio project*
+        *Website Performance Optimization portfolio project*
 
 1) DEFINITION OF THE PROJECT:
 
@@ -52,12 +52,12 @@ These are the list of Web sites, books, forums, blog posts, github repositories 
  by simply storing that references in a variable and refering to that variable throughout the code. This is how I've implemented these concepts in the code: 
 
  /** Lines 502 to 522 of the original code:
-   */
+   
 
  /** This function has a new index 1 and, as shown below, is going to be executed on 
-   * requestAnimationFrame. Some variable declarations are outside the for loop.
-   * 
-   */
+     requestAnimationFrame. Some variable declarations are outside the for loop.
+   
+   
 
   function updatePositions1() {
   frame++;
@@ -81,12 +81,13 @@ These are the list of Web sites, books, forums, blog posts, github repositories 
  }
 
 /** Connects the event with the handler function updatePosition2
-  */
+  
+  
     window.addEventListener('scroll', updatePositions2);
 
 /** Creates an event handler function that does nothing but to store the current scroll position and
-  * perform an average measure between the last 10 frames
-  */
+    perform an average measure between the last 10 frames
+  
 
     function updatePositions2() {
 
@@ -107,18 +108,16 @@ These are the list of Web sites, books, forums, blog posts, github repositories 
  }
 
 /** Execute the updatePositions1 function, which caused the performance problems, inside of 
-  * requestAnimationFrame rather than every time the scroll event fires, improving application 
-  * performance
-  */
+    requestAnimationFrame rather than every time the scroll event fires, improving application 
+    performance
+  
+/** Debouncing scroll events with requestAnimationFrame  
 
- //Debouncing scroll events with requestAnimationFrame:
 (function drawFrame () { 
 window.requestAnimationFrame(drawFrame);
 
 updatePositions1();
 resizePizzas();
-
-
 
  }());
 
