@@ -8,6 +8,10 @@
   * requestAnimationFrame, making use ofthe last known value. "This means that the browser 
   * can schedule the visual updates at the correct time, and we are not doing more work than 
   * it's absolutely necessary inside of each frame."
+  *
+  * I've also moved some variable declarations outside the for loop on changePizzaSizes and 
+  * updatePositions1 functions, and minimize the access to Page Elements by simply storing that 
+  * references in a variable which is used throughout the code. 
   */
 
 var pizzaIngredients = {},
@@ -437,7 +441,10 @@ var resizePizzas = function(size) {
 
     return dx;
   }
-
+  /** Some variable declarations are moved outside the for loop. To minimize the access 
+    * to Page Elements their references are simply stored in a variable which is used 
+    * throughout the code.
+    */ 
   function changePizzaSizes(size) {
     var i=0;
     
@@ -487,10 +494,14 @@ function logAverageFrame(times) {
   console.log("Average time to generate last 10 frames: " + sum / 10 + "ms");
 }
 
-/** USE OF TRANSLATE instead of style.left toanimate the position of moving pizzas 
+/** Use of "translate" instead of style.left to animate the position of moving pizzas 
   * by setting "left" property. It's better solution to use the
   * "translate" animation on the element because it doesn't trigger layout.
+  * Also some variable declarations are moved outside the for loop. To minimize the access 
+  * to Page Elements their references are simply stored in a variable which is used 
+  * throughout the code. 
   */
+  
 
 
 function updatePositions1() {
