@@ -110,14 +110,13 @@ These are the list of Web sites, books, forums, blog posts, github repositories 
     performance
   
 
- //Debouncing scroll events with requestAnimationFrame:
+/** Debouncing scroll events with requestAnimationFrame  
+ 
 (function drawFrame () { 
 window.requestAnimationFrame(drawFrame);
 
 updatePositions1();
 resizePizzas();
-
-
 
  }());
 
