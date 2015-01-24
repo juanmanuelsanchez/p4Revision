@@ -14,10 +14,11 @@ Your challenge, if you wish to accept it (and we sure hope you will), is to opti
 
 These are the list of Web sites, books, forums, blog posts, github repositories etc, that I referred to or used in this submission:
 
-- “Web performance optimization” course, Udacity.
+- “Web performance optimization” course, Udacity, and course materials.
 - Piazza forum and discussions.
 - Den Odell’s Pro JavaScript Development book, page 103, as docummented here below, and chapters 3
   4 and 15.
+-  Billy Lamberta and Keith Peters: Foundation HTML5 Animation with JavaScript, page 20. 
 - www.gruntjs.com for Grunt task runner.
 - npm: www.npmjs.com for Grunt workflow.
 - www.html5rocks.com/en/tutorial/speed/scrolling/ for Debouncing scroll events
