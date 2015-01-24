@@ -19,10 +19,10 @@ These are the list of Web sites, books, forums, blog posts, github repositories 
 - Den Odell’s Pro JavaScript Development book, page 103, as docummented here below, and chapters 3
   4 and 15.
 -  Billy Lamberta and Keith Peters: Foundation HTML5 Animation with JavaScript, page 20. 
-- www.gruntjs.com for Grunt task runner.
-- npm: www.npmjs.com for Grunt workflow.
-- www.html5rocks.com/en/tutorial/speed/scrolling/ for Debouncing scroll events
-- www.html5rocks.com/en/tutorial/speed/scrolling/high-performance-animations/ for CSS transform
+- (https://www.gruntjs.com/) for Grunt task runner.
+- npm:(https://www.npmjs.com/) for Grunt workflow.
+- (https://www.html5rocks.com/en/tutorial/speed/scrolling/) for Debouncing scroll events
+- (https://www.html5rocks.com/en/tutorial/speed/scrolling/high-performance-animations/) for CSS transform
   and translate.
 
  I've applied the three recommended patterns:
