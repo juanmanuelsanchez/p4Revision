@@ -47,14 +47,14 @@ These are the list of Web sites, books, forums, blog posts, github repositories 
    b.3.1) I've inlined "style.css" in "index.html", "project-2048.html", "project-mobile.html", "project-webperf.html" and "pizza.html".
    b.3.2) The same optimization is done with "boostrap-grid.css" in "pizza.html".
 
- b.4) I've done some small changes in views/js/main.min.js to optimize the logical side of how the page is rendered at "updatePosition" and "resizePizzas" functions, following the recommendations of Den Odell: Pro JavaScript Development, page 103, for handling "Rapid-Fire Events With Framing", and Paul Lewis at www.html5rocks.com/en/tutorial/speed/scrolling/. The pursued target was to adjust the code in order to make the scroll event handler to store the scroll position in a variable and then you perform your visual updates in a requestAnimationFrame, making use ofthe last known value. This means that the browser can schedule the visual updates at the correct time, and we are not doing more work that it's absolutely necessary inside of each frame. I've also moved all the variable declarations outside the for loop and minimize the access to Page Elements
- by simply storing their references in a variable and refering to that variable throughout the code. This is how I've implemented these concepts in the code:
+ b.4) I've done some small changes in views/js/main.min.js to optimize the logical side of how the page is rendered at _updatePosition_ and _resizePizzas_ functions, following the recommendations of Den Odell: _Pro JavaScript Development_, page 103, for handling "Rapid-Fire Events With Framing", and Paul Lewis at https://www.html5rocks.com/en/tutorial/speed/scrolling/. The pursued target was to adjust the code in order to make the scroll event handler to store the scroll position in a variable and then you perform your visual updates in a _requestAnimationFrame_, making use ofthe last known value. This means that the browser can schedule the visual updates at the correct time, and we are not doing more work that it's absolutely necessary inside of each frame. I've also moved some variable declarations outside the for loop and minimize the access to Page Elements by simply storing their references in a variable and refering to that variable throughout the code. 
+ This is how I've implemented these concepts in the code:
 
   /** Lines 502 to 522 of the original code:
    
 
  /** This function has a new index 1 and, as shown below, is going to be executed in
-     requestAnimationFrame. To minimize the access to Page Elements
+     _requestAnimationFrame_. To minimize the access to Page Elements
      their references are stored in a variable which is used throughout the code.
   
 
@@ -105,23 +105,22 @@ These are the list of Web sites, books, forums, blog posts, github repositories 
    }
  }
 
-/** Execute the updatePositions1 function, which caused the performance problems, inside of 
-    requestAnimationFrame rather than every time the scroll event fires, improving application 
-    performance
+/** _changePizzaSizes_ and _determineDx_ functions are taken out the _resizePizzas_ function
+    to debounce the pizza slider event. The code executes the _updatePositions1_ and _changePizzaSizes_ functions, which caused the performance problems, inside of _requestAnimationFrame_ rather than every time the scroll or slide events fires, improving application performance.
   
 
-/** Debouncing scroll events with requestAnimationFrame  
+/** Debouncing scroll and pizza slider events with requestAnimationFrame  
  
 (function drawFrame () { 
 window.requestAnimationFrame(drawFrame);
 
 updatePositions1();
-resizePizzas();
+changePizzaSizes(size);
 
  }());
 
  
- b.5) Instead of animate the position of moving pizzas by setting "left" property, I'm using a "translate" on the element because it doesn't trigger layout. I've added in this way:
+ b.5) Instead of animate the position of moving pizzas by setting _left_ property, I'm using a _translate_ on the element because it doesn't trigger layout. I've added in this way:
 
  function updatePositions1() {
   frame++;
@@ -154,7 +153,7 @@ resizePizzas();
 
  3) REWIEW AND OPTIMIZATION PROCESS RESULTS:
 
- All the files have passed the Pagespeed Insights site recommendations with a "speed" score of 90/100 or higher, and 100/100 score on "user experience" both on mobile and on desktop. And the pizza.html has a 60 FPS when scrolling the page.
+ All the files have passed the Pagespeed Insights site recommendations with a "speed" score of 90/100 or higher, and 100/100 score on "user experience" both on mobile and on desktop. The pizza.html has a 60 FPS when scrolling the page and the time to resize pizzas is less than 5 ms.
 
 
 
