@@ -144,10 +144,9 @@ changePizzaSizes(size);
 /###/
   C) Shorten CRP length:
 
-  I've used async atrribute on the following JS files, which have dependencies with "index.html", "project-2048.html", "project-mobile.html", "project-webperf.html":
+  I've used async atrribute on the following JS files, which have dependencies with "index.html", "project-2048.html", "project-mobile.html", "project-webperf.html": "perfmatters.min.js" and "analytics.js".
 
- (<script async src="//www.google-analytics.com/analytics.js"></script>)
- (<script async src="js/perfmatters.js"></script>)
+
 
 /***************************************************************************************************/
 
