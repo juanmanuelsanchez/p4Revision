@@ -1,23 +1,20 @@
 
 /** I've done some small changes in views/js/main.js to optimize the logical side of how 
-  * the page is rendered at "updatePosition" and "resizePizzas" functions, following the 
+  * the page is rendered at "updatePosition" and "changePizzaSizes" functions, following the 
   * recommendations of Den Odell: Pro JavaScript Development, page 103, for handling 
   * "Rapid-Fire Events With Framing", and Paul Lewis at www.html5rocks.com/en/tutorial/speed/scrolling/. 
-  * The pursued target was to adjust the code in order to make the scroll event handler to store 
-  * the scroll position in a variable and then you perform your visual updates in a 
-  * requestAnimationFrame, making use ofthe last known value. "This means that the browser 
-  * can schedule the visual updates at the correct time, and we are not doing more work than 
-  * it's absolutely necessary inside of each frame."
-  *
-  * I've also moved some variable declarations outside the for loop on changePizzaSizes and 
-  * updatePositions1 functions, and minimize the access to Page Elements by simply storing that 
-  * references in a variable which is used throughout the code. 
+  * The pursued target was to adjust the code in order to make the scroll and the slider event 
+  * handlers to store the scroll and slide positions in variables and then you perform your visual 
+  * updates in a requestAnimationFrame, making use of these last known values. 
+  * "This means that the browser can schedule the visual updates at the correct time, 
+  * and we are not doing more work than it's absolutely necessary inside of each frame."
   */
 
 var pizzaIngredients = {},
     scrollTopPosition=0,
     scrollLeftPosition=0,
-    body= document.body;
+    body= document.body,
+    size=1;
 
 pizzaIngredients.meats = [
   "Pepperoni",
@@ -399,16 +396,25 @@ var pizzaElementGenerator = function(i) {
 var resizePizzas = function(size) { 
   window.performance.mark("mark_start_resize");  
 
+/** The variable declaration is done outside the switch loop to minimize 
+  * the access to Page Elements by simply storing it's reference in a variable and then 
+  * refering to that throughout the code.
+  */
+
   function changeSliderLabel(size) {
+    var domText= document.querySelector("#pizzaSize").innerHTML;
     switch(size) {
       case "1":
-        document.querySelector("#pizzaSize").innerHTML = "Small";
+        //document.querySelector("#pizzaSize").innerHTML = "Small";
+        domText= "Small";
         return;
       case "2":
-        document.querySelector("#pizzaSize").innerHTML = "Medium";
+        //document.querySelector("#pizzaSize").innerHTML = "Medium";
+        domText = "Medium";
         return;
       case "3":
-        document.querySelector("#pizzaSize").innerHTML = "Large";
+        //document.querySelector("#pizzaSize").innerHTML = "Large";
+        domText = "Large";
         return;
       default:
         //console.log("bug in changeSliderLabel");
@@ -416,6 +422,49 @@ var resizePizzas = function(size) {
   }
 
   changeSliderLabel(size);
+
+  
+
+
+  window.performance.mark("mark_end_resize");
+  window.performance.measure("measure_pizza_resize", "mark_start_resize", "mark_end_resize");
+  var timeToResize = window.performance.getEntriesByName("measure_pizza_resize");
+  console.log("Time to resize pizzas: " + timeToResize[0].duration + "ms");
+}
+
+
+
+window.performance.mark("mark_start_generating"); 
+for (var i = 2; i < 100; i++) {
+  var pizzasDiv = document.getElementById("randomPizzas");
+  pizzasDiv.appendChild(pizzaElementGenerator(i));
+}
+
+/** changePizzaSizes and determineDx functions are taken out the resizePizzas function
+  * to debounce the pizza slider event. We're going to call changePizzaSizes from
+  * requestAnimationFrame.
+  *
+  * Note the use of "translate" instead of style.width to animate the size of the pizzas 
+  * by setting "width" property. It's better solution to use the
+  * "translate" animation on the element because it doesn't trigger layout.
+  * Some of the variable declarations are done outside the for loop and specifically to minimize 
+  * the access to Page Elements by simply storing their references in a variable and 
+  * refering to them throughout the code
+  */
+function changePizzaSizes(size) {
+    var i=0;
+    
+    var container= document.querySelectorAll(".randomPizzaContainer");
+    var length= container.length;
+    for (; i < length; i++) {
+
+      var dx = determineDx(container[i], size);
+      var newwidth = (container[i].offsetWidth + dx) + 'px';
+      //container[i].style.width = newwidth;
+      container[i].style.transform = 'scaleX('+ newwidth +'px)';
+    }
+  }
+
 
   function determineDx (elem, size) {
     var oldwidth = elem.offsetWidth;
@@ -441,40 +490,6 @@ var resizePizzas = function(size) {
 
     return dx;
   }
-  /** Some variable declarations are moved outside the for loop. To minimize the access 
-    * to Page Elements their references are simply stored in a variable which is used 
-    * throughout the code.
-    */ 
-  function changePizzaSizes(size) {
-    var i=0;
-    
-    var container= document.querySelectorAll(".randomPizzaContainer");
-    var length= container.length;
-    for (; i < length; i++) {
-
-      var dx = determineDx(container[i], size);
-      var newwidth = (container[i].offsetWidth + dx) + 'px';
-      container[i].style.width = newwidth;
-    }
-  }
-
-
-  changePizzaSizes(size);
-
-
-  window.performance.mark("mark_end_resize");
-  window.performance.measure("measure_pizza_resize", "mark_start_resize", "mark_end_resize");
-  var timeToResize = window.performance.getEntriesByName("measure_pizza_resize");
-  console.log("Time to resize pizzas: " + timeToResize[0].duration + "ms");
-}
-
-
-
-window.performance.mark("mark_start_generating"); 
-for (var i = 2; i < 100; i++) {
-  var pizzasDiv = document.getElementById("randomPizzas");
-  pizzasDiv.appendChild(pizzaElementGenerator(i));
-}
 
 
 window.performance.mark("mark_end_generating");
@@ -494,14 +509,13 @@ function logAverageFrame(times) {
   console.log("Average time to generate last 10 frames: " + sum / 10 + "ms");
 }
 
-/** Use of "translate" instead of style.left to animate the position of moving pizzas 
+/** Note the use of "translate" instead of style.left to animate the position of moving pizzas 
   * by setting "left" property. It's better solution to use the
   * "translate" animation on the element because it doesn't trigger layout.
-  * Also some variable declarations are moved outside the for loop. To minimize the access 
-  * to Page Elements their references are simply stored in a variable which is used 
-  * throughout the code. 
+  * Some of the variable declarations are done outside the for loop and specifically to minimize 
+  * the access to Page Elements by simply storing their references in a variable and 
+  * refering to them throughout the code.
   */
-  
 
 
 function updatePositions1() {
@@ -551,8 +565,8 @@ function updatePositions2() {
 (function drawFrame () { 
 window.requestAnimationFrame(drawFrame);
 
-updatePositions1();
-resizePizzas();
+ updatePositions1();
+ changePizzaSizes(size);
 
 
 
