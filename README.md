@@ -146,8 +146,8 @@ changePizzaSizes(size);
 
   I've used async atrribute on the following JS files, which have dependencies with "index.html", "project-2048.html", "project-mobile.html", "project-webperf.html":
 
- /*<script async src="//www.google-analytics.com/analytics.js"></script>*/
- /*<script async src="js/perfmatters.js"></script>*/
+ (<script async src="//www.google-analytics.com/analytics.js"></script>)
+ (<script async src="js/perfmatters.js"></script>)
 
 /***************************************************************************************************/
 
