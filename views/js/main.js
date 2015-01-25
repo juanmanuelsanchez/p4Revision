@@ -541,7 +541,7 @@ function updatePositions1() {
 }
 
 window.addEventListener('scroll', updatePositions2);
-/** Debounce of scroll events with requestAnimationFrame
+/** Debounce of scroll event with requestAnimationFrame
   */
 function updatePositions2() {
 
@@ -560,7 +560,7 @@ function updatePositions2() {
 
   }
 }
-/** Debounce of scroll events with requestAnimationFrame
+/** Debounce of scroll and slider events with requestAnimationFrame
   */
 (function drawFrame () { 
 window.requestAnimationFrame(drawFrame);
